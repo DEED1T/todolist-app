@@ -1,0 +1,8 @@
+---
+- name: SSH Setup
+  hosts:
+   - monitor
+   - preprod
+   - prod
+  roles:
+    - ssh_setup
