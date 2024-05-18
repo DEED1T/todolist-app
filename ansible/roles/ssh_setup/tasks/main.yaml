@@ -28,3 +28,4 @@
   become: true
 
 # This playbook is designed to run once.
+# It is designed to run by the normal users to set up GHA user with his public SSH key

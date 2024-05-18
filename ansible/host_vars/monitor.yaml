@@ -1,1 +1,1 @@
-ansible_user: deed1t
+ansible_user: "{{ 'GHA' if lookup('env', 'USER') == 'GHA' else 'deed1t' }}"
