@@ -6,3 +6,18 @@
    - prod
   roles:
     - ssh_setup
+
+- name: Docker setup
+  hosts: all
+  roles:
+    - docker_install
+
+- name: Traefik setup
+  hosts: all
+  roles:
+    - traefik_service
+
+- name: Sonarqube setup
+  hosts: monitor
+  roles:
+    - sonar_service

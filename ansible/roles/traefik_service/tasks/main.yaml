@@ -1,0 +1,57 @@
+---
+- name: Create volume for SSL certificates stockage
+  become: true
+  file:
+    path: /etc/docker/traefik/acme/
+    mode: '0640'
+    state: directory
+    owner: root
+    recurse: true
+
+- name: Create volume for traefik
+  docker_volume:
+    name:
+
+- name: Create docker network for traefik
+  community.docker.docker_network:
+    name: traefik
+    driver: overlay
+    attachable: true
+
+- name: Deploy traefik
+  community.docker.docker_swarm_service:
+    name: traefik
+    image: "traefik:2.6.1"
+    mode: global
+    mounts:
+      - source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - source: /etc/docker/traefik/acme/
+        target: /etc/traefik/acme/
+    networks:
+      - traefik
+    command:
+      - "/usr/local/bin/traefik"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--metrics.prometheus=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesResolvers.letsencryptresolver.acme.storage=/etc/traefik/acme/acme.json"
+      - "--certificatesResolvers.letsencryptresolver.acme.httpChallenge=true"
+      - "--certificatesResolvers.letsencryptresolver.acme.httpChallenge.entryPoint=web"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.network=traefik"
+      - "--providers.docker.watch=true"
+      - "--providers.docker.exposedByDefault=true"
+      - "--providers.docker.swarmMode=true"
+    publish:
+      - target_port: 80
+        published_port: 80
+        mode: host
+      - target_port: 443
+        published_port: 443
+        mode: host
