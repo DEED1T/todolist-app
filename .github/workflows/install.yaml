@@ -1,0 +1,26 @@
+name: Deploy Ansible Playbook for installing the different necessary apps
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  ansible-playbook-execution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: add SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook site.yaml -i inventories/hosts.yaml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'false'

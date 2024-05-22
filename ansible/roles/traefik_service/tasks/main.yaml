@@ -1,16 +1,7 @@
 ---
-- name: Create volume for SSL certificates stockage
-  become: true
-  file:
-    path: /etc/docker/traefik/acme/
-    mode: '0640'
-    state: directory
-    owner: root
-    recurse: true
-
 - name: Create volume for traefik
   docker_volume:
-    name:
+    name: traefik_certs
 
 - name: Create docker network for traefik
   community.docker.docker_network:
@@ -26,8 +17,9 @@
     mounts:
       - source: /var/run/docker.sock
         target: /var/run/docker.sock
-      - source: /etc/docker/traefik/acme/
+      - source: traefik_certs
         target: /etc/traefik/acme/
+        type: volume
     networks:
       - traefik
     command:

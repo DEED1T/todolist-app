@@ -1,12 +1,42 @@
 ---
+- name: Create volumes for SonarQube
+  docker_volume:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sonarqube_data
+    - sonarqube_extensions
+    - sonarqube_logs
+    - sonarqube_temp
+
+- name: Ensure PostgreSQL is running
+  community.docker.docker_swarm_service:
+    name: db
+    image: "postgres:latest"
+    env:
+      POSTGRES_DB: "sonarqube"
+      POSTGRES_USER: "sonar"
+      POSTGRES_PASSWORD: "sonar"
+    networks:
+      - traefik
+
 - name: Deploy SonarQube
   community.docker.docker_swarm_service:
     name: sonarqube
     image: "sonarqube:latest"
-    mode: global
     mounts:
       - source: sonarqube_data
-        target:
+        target: /opt/sonarqube/data
+        type: volume
+      - source: sonarqube_extensions
+        target: /opt/sonarqube/extensions
+        type: volume
+      - source: sonarqube_logs
+        target: /opt/sonarqube/logs
+        type: volume
+      - source: sonarqube_temp
+        target: /opt/sonarqube/temp
+        type: volume
     networks:
       - traefik
     env:
@@ -20,15 +50,3 @@
       - "traefik.http.routers.sonarqube.tls.certresolver=letsencryptresolver"
       - "traefik.http.services.sonarqube.loadbalancer.server.port=9000"
 
-- name: Ensure PostgreSQL is running
-  community.docker.docker_swarm_service:
-    name: db
-    image: "postgres:latest"
-    env:
-      POSTGRES_DB: "sonarqube"
-      POSTGRES_USER: "sonar"
-      POSTGRES_PASSWORD: "sonar"
-    deploy:
-      replicas: 1
-    networks:
-      - traefik
