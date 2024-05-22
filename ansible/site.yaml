@@ -1,12 +1,4 @@
 ---
-- name: SSH Setup
-  hosts:
-   - monitor
-   - preprod
-   - prod
-  roles:
-    - ssh_setup
-
 - name: Docker setup
   hosts: all
   roles:
