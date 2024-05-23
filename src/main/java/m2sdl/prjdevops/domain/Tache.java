@@ -1,4 +1,4 @@
-package m2sdl.prjdevops;
+package m2sdl.prjdevops.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

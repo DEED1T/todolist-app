@@ -1,0 +1,52 @@
+package m2sdl.prjdevops.service;
+
+import m2sdl.prjdevops.domain.Tache;
+import m2sdl.prjdevops.repository.TacheRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class TacheService {
+
+    private final TacheRepository tacheRepository;
+
+    //SonarLint java:S6813
+    //https://rules.sonarsource.com/java/RSPEC-3306
+    public TacheService(TacheRepository tacheRepository) {
+        this.tacheRepository = tacheRepository;
+    }
+
+    public long countTaches() {
+        return tacheRepository.count();
+    }
+
+    public Tache findTacheById(long id) {
+        return tacheRepository
+                .findById(id)
+                .orElse(null);
+    }
+
+    public List<Tache> findAllTaches() {
+        List<Tache> allTaches = new ArrayList<>();
+
+        this.tacheRepository.findAll().forEach(allTaches::add);
+
+        return allTaches;
+    }
+
+    public List<Tache> findCompletedTaches() {
+        return this.findAllTaches()
+                .stream()
+                .filter(Tache::isDone)
+                .toList();
+    }
+
+    public List<Tache> findTacheFromDescription(String description) {
+        return this.findAllTaches()
+                .stream()
+                .filter(tache -> tache.getDescription().contains(description))
+                .toList();
+    }
+}
