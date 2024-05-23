@@ -47,6 +47,7 @@
           - containerd.io
           - docker-buildx-plugin
           - docker-compose-plugin
+          - python3-docker
         state: present
 
     - name: Add docker group
@@ -59,8 +60,10 @@
         name: gha
         groups: docker
         append: yes
+      register: group_append
 
 - name: Reboot VM to confirm all changes
+  when: group_append.changed
   become: true
   ansible.builtin.reboot:
 
