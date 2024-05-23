@@ -1,27 +1,27 @@
 ---
 - name: Add the Github Actions user
   user:
-    name: GHA
+    name: gha
     comment: Github Action
     state: present
   become: true
 - name: Add the ssh directory
   file:
-    path: /home/GHA/.ssh
-    mode: '0640'
+    path: /home/gha/.ssh
+    mode: '755'
     state: directory
-    owner: GHA
+    owner: gha
   become: true
 - name: Add the authorized keys file
   file:
-    path: /home/GHA/.ssh/authorized_keys
+    path: /home/gha/.ssh/authorized_keys
     state: touch
-    mode: '0640'
-    owner: GHA
+    mode: '755'
+    owner: gha
   become: true
 - name: Add the GHA public key
   blockinfile:
-    path: /home/GHA/.ssh/authorized_keys
+    path: /home/gha/.ssh/authorized_keys
     append_newline: true
     block: |
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDddi6i/z7IcbFsHnaKx4hpKLhmmCg8Tq2i4e37gX7RareluMMb9Dhtvmr2bbyzbWq8Xe+pmb4EBAFWWxcxSxEMK71CoGIKcDQ/S18efPfhhlg4tMXR1ZcbSKKXg4/hKHv9SgJ397T3yA8nPj3NLjXftCtmRWqLNfHK6GX6XC7ZdvqQoauuJrti+2x92gqf5RtNgYH06pHMJOLEf2rvHSd03evPpnTeCqD8VMNkRfe3iClY/KjzU5Fs3wgBHlj5Fbz13p+Xj2mxyP4XKlyfFhG+OVwYiYVdes0sMXqKDYE7XVy55WozDQhJegr+L0IuVxvXUQVn9BHI+rDusgyIrOS1ERD0KMPSbvPdcj8LQ1ZmuewCvcEI6A3DqIF6TS+W0IiSh2LHW6qmJ7JXknpIVF965CcyBnq4+dHC9TOIWiNGstzjSj8fg5bSFb4JUyW986HbZArVL98/NhSmg38tjZV+Cd5GXDrTS0osO6L9GCYb9OSwaQ6sYlhfnDiJZej3PxdUGxwDhgfpCoXHkr7Us4mkNDSJGhnEOqe38vsGHLHe0JBtuIWJRPoK9nsBhbXMs5bSD6IPAa1mAJdOZI6WcVSxTnhDsAeIQIc+Sd2iWT+auzhn+dB7+XHhSkm9tyAmt2WhdskBQ2LGcroKgLZkweWLJSYABb4/NbK5EOhrbg6bww== gha

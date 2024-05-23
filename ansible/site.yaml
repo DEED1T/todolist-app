@@ -1,18 +1,15 @@
 ---
 - name: Docker setup
-  gather_facts: no
   hosts: all
   roles:
     - docker_install
 
 - name: Traefik setup
-  gather_facts: no
   hosts: all
   roles:
     - traefik_service
 
 - name: Sonarqube setup
-  gather_facts: no
   hosts: monitor
   roles:
     - sonar_service
