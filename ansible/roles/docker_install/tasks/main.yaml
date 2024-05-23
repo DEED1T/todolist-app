@@ -57,7 +57,7 @@
     - name: Add GHA user to docker group
       user:
         name: gha
-        group: docker
+        groups: docker
         append: yes
 
 - name: Make sure docker for python is installed
@@ -67,6 +67,11 @@
 - name: Reboot VM to confirm all changes
   become: true
   ansible.builtin.reboot:
+
+- name: Make sure docker is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: docker
 
 - name: Init a new swarm with default parameters
   community.docker.docker_swarm:
