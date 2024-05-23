@@ -44,9 +44,9 @@
       SONARQUBE_JDBC_USERNAME: "sonar"
       SONARQUBE_JDBC_PASSWORD: "sonar"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.sonarqube.rule=Host(`sonar.deed1t.master-sdl.ovh`)"
-      - "traefik.http.routers.sonarqube.entrypoints=websecure"
-      - "traefik.http.routers.sonarqube.tls.certresolver=letsencryptresolver"
-      - "traefik.http.services.sonarqube.loadbalancer.server.port=9000"
+      traefik.enable: "true"
+      traefik.http.routers.sonarqube.rule: "Host(`sonar.deed1t.master-sdl.ovh`)"
+      traefik.http.routers.sonarqube.entrypoints: "websecure"
+      traefik.http.routers.sonarqube.tls.certresolver: "letsencryptresolver"
+      traefik.http.services.sonarqube.loadbalancer.server.port: "9000"
 
