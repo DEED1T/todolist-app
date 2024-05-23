@@ -75,4 +75,5 @@
 
 - name: Init a new swarm with default parameters
   become: true
-  command: docker swarm init
+  command:
+    state: present
