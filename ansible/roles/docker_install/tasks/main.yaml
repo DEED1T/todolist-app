@@ -71,7 +71,7 @@
   pip:
     name: "{{ item }}"
   loop:
-    - requests<2.32.0
+    - requests<2.32.0 #specific version bc of a bug in the chain supply from docker-py SDK
     - docker
     - docker-compose
 
