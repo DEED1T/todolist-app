@@ -1,0 +1,9 @@
+---
+all:
+  hosts:
+    prod:
+      ansible_host: notdelirious.master-sdl.ovh
+    preprod:
+      ansible_host: topin060.master-sdl.ovh
+    monitor:
+      ansible_host: deed1t.master-sdl.ovh
