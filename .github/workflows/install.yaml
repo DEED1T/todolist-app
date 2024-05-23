@@ -2,7 +2,7 @@ name: Deploy Ansible Playbook for installing the different necessary apps
 
 on:
   push:
-    branches:
+    tags:
       - '**'
 
 jobs:
