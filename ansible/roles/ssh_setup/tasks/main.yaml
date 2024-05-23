@@ -2,9 +2,26 @@
 - name: Add the Github Actions user
   user:
     name: gha
+    groups: sudo
     comment: Github Action
     state: present
   become: true
+
+- name: Add the ansible sudoers directory
+  file:
+    path: /etc/sudoers.d/80-ansible-sudo-user
+    mode: '755'
+    state: touch
+    owner: gha
+  become: true
+
+- name: Make sudo without password for gha user
+  copy:
+    dest: /etc/sudoers.d/80-ansible-sudo-user
+    content: "gha ALL=(ALL) NOPASSWD:ALL"
+    mode: 0440
+  become: true
+
 - name: Add the ssh directory
   file:
     path: /home/gha/.ssh
