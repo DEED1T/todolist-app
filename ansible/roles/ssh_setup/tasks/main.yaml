@@ -12,7 +12,7 @@
     path: /etc/sudoers.d/80-ansible-sudo-user
     mode: '755'
     state: touch
-    owner: gha
+    owner: root
   become: true
 
 - name: Make sudo without password for gha user
