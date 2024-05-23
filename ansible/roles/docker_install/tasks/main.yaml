@@ -65,6 +65,7 @@
     name: docker
 
 - name: Reboot VM to confirm all changes
+  become: true
   ansible.builtin.reboot:
 
 - name: Init a new swarm with default parameters
