@@ -10,6 +10,8 @@
     attachable: true
 
 - name: Deploy traefik
+  vars:
+    ansible_python_interpreter: /bin/python3
   community.docker.docker_swarm_service:
     name: traefik
     image: "traefik:2.6.1"

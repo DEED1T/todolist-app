@@ -64,7 +64,7 @@
   become: true
   ansible.builtin.reboot:
 
-- name: Make sure docker for python is installed
+- name: Modified pip package - BUG
   pip:
     name: requests<2.32.0
 
