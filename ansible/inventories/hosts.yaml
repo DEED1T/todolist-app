@@ -4,9 +4,12 @@ all:
     prod:
       ansible_host: notdelirious.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_python_interpreter: /usr/bin/python3
     preprod:
       ansible_host: topin060.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_python_interpreter: /usr/bin/python3
     monitor:
       ansible_host: deed1t.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_python_interpreter: /usr/bin/python3
