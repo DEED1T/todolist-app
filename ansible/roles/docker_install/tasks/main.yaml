@@ -62,7 +62,7 @@
 
 - name: Make sure docker for python is installed
   pip:
-    name: docker
+    name: docker<2.32
 
 - name: Reboot VM to confirm all changes
   become: true
