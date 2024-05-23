@@ -66,6 +66,10 @@
 
 - name: Make sure docker for python is installed
   pip:
+    name: requests<2.32.0
+
+- name: Make sure docker for python is installed
+  pip:
     name: docker
 
 - name: Make sure docker is running
@@ -74,5 +78,5 @@
     name: docker
 
 - name: Init a new swarm with default parameters
-  command:
+  community.docker.docker_swarm:
     state: present
