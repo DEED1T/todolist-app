@@ -60,13 +60,13 @@
         groups: docker
         append: yes
 
-- name: Make sure docker for python is installed
-  pip:
-    name: docker<2.32
-
 - name: Reboot VM to confirm all changes
   become: true
   ansible.builtin.reboot:
+
+- name: Make sure docker for python is installed
+  pip:
+    name: docker<2.31
 
 - name: Make sure docker is running
   ansible.builtin.systemd_service:
@@ -74,6 +74,5 @@
     name: docker
 
 - name: Init a new swarm with default parameters
-  become: true
   command:
     state: present
