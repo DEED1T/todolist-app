@@ -66,7 +66,7 @@
 
 - name: Make sure docker for python is installed
   pip:
-    name: docker<2.31
+    name: docker
 
 - name: Make sure docker is running
   ansible.builtin.systemd_service:
