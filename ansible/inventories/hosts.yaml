@@ -4,9 +4,12 @@ all:
     prod:
       ansible_host: notdelirious.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_user: gha
     preprod:
       ansible_host: topin060.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_user: gha
     monitor:
       ansible_host: deed1t.master-sdl.ovh
       ansible_ssh_port: 22
+      ansible_user: gha
