@@ -60,6 +60,10 @@
         group: docker
         append: yes
 
+- name: Make sure docker for python is installed
+  pip:
+    name: docker
+
 - name: Init a new swarm with default parameters
   community.docker.docker_swarm:
     state: present
