@@ -1,4 +1,4 @@
-name: Deploy Ansible Playbook for installing the different necessary apps
+name: Tools & Packages installation
 
 on:
   push:
