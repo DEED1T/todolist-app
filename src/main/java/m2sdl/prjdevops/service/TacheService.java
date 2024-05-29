@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TacheService {
@@ -48,5 +49,14 @@ public class TacheService {
                 .stream()
                 .filter(tache -> tache.getDescription().contains(description))
                 .toList();
+    }
+
+    public Tache saveTache(Tache tache) {
+        Objects.requireNonNull(tache, "Tache must not be null");
+        return this.tacheRepository.save(tache);
+    }
+
+    public void deleteTache(long id) {
+        this.tacheRepository.deleteById(id);
     }
 }
