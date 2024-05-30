@@ -1,6 +1,5 @@
 package m2sdl.prjdevops.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -54,10 +53,10 @@ public class TacheController {
 
         Tache tacheToUpdate = tacheService.findTacheById(idTache);
         if (tacheToUpdate != null) {
-           tacheToUpdate.setTitre(updatedTitre);
-           tacheToUpdate.setTexte(updatedTexte);
+            tacheToUpdate.setTitre(updatedTitre);
+            tacheToUpdate.setTexte(updatedTexte);
 
-           return new ResponseEntity<>(tacheService.saveTache(tacheToUpdate), HttpStatus.OK);
+            return new ResponseEntity<>(tacheService.saveTache(tacheToUpdate), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

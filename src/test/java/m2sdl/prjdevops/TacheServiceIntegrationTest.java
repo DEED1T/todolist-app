@@ -3,12 +3,13 @@ package m2sdl.prjdevops;
 import jakarta.persistence.EntityNotFoundException;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class TacheServiceIntegrationTest {
 
     @Autowired
@@ -51,7 +54,7 @@ class TacheServiceIntegrationTest {
 
     @Test
     void givenAnExistingTache_whenGetTache_thenTacheIsReturned() {
-        Tache fetchedTache = tacheService.findTacheById(0L);
+        Tache fetchedTache = tacheService.findTacheById(1L);
         assertNotNull(fetchedTache);
     }
 
@@ -132,7 +135,16 @@ class TacheServiceIntegrationTest {
     void givenATache_whenTacheIsDeleted_thenTacheIsDeletedFromDB() {
         tacheService.deleteTache(tache2.getId());
 
-        assertNull(tacheService.findTacheById(tache2.getId()));
+        assertThrows(EntityNotFoundException.class, () -> tacheService.findTacheById(tache2.getId()));
+    }
+
+    @Test
+    void givenATache_whenTacheIsDeleted_thenTacheCountIsDecrementedByOne() {
+        long countach = tacheService.countTaches();
+
+        tacheService.deleteTache(tache2.getId());
+
+        assertEquals(countach - 1, tacheService.countTaches(), "Count of Taches was not decremented by one. Should be 3 and not 4.");
     }
 
 }
