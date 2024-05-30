@@ -4,6 +4,7 @@ import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,22 +38,37 @@ public class TacheService {
         return allTaches;
     }
 
-    public List<Tache> findCompletedTaches() {
+    public List<Tache> findTacheFromTexte(String texte) {
         return this.findAllTaches()
                 .stream()
-                .filter(Tache::isDone)
+                .filter(tache -> tache.getTexte().contains(texte))
                 .toList();
     }
 
-    public List<Tache> findTacheFromDescription(String description) {
+    public List<Tache> findTacheFromTitre(String titre) {
         return this.findAllTaches()
                 .stream()
-                .filter(tache -> tache.getDescription().contains(description))
+                .filter(tache -> tache.getTitre().contains(titre))
+                .toList();
+    }
+
+    public List<Tache> findTacheByDate(LocalDateTime date) {
+        return this.findAllTaches()
+                .stream()
+                .filter(tache -> tache.getDate().equals(date))
+                .toList();
+    }
+
+    public List<Tache> findAllTachesFromDateRange(LocalDateTime dateFrom, LocalDateTime dateTo) {
+        return this.findAllTaches()
+                .stream()
+                .filter(tache -> tache.getDate().isAfter(dateFrom) && tache.getDate().isBefore(dateTo))
                 .toList();
     }
 
     public Tache saveTache(Tache tache) {
         Objects.requireNonNull(tache, "Tache must not be null");
+        tache.setDate(LocalDateTime.now());
         return this.tacheRepository.save(tache);
     }
 

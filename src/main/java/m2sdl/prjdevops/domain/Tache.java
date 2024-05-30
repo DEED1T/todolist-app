@@ -1,34 +1,39 @@
 package m2sdl.prjdevops.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "tache")
 public class Tache {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
     @NotNull
-    private boolean done;
+    private String titre;
 
     @NotEmpty
     @NotNull
-    private String description;
+    private String texte;
 
-    public Tache(Boolean done, String description) {
-        this.done = done;
-        this.description = description;
+    @DateTimeFormat
+    public LocalDateTime date;
+
+    public Tache(String titre, String description) {
+        this.titre = titre;
+        this.texte = description;
     }
 }
