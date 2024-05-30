@@ -1,6 +1,7 @@
 package m2sdl.prjdevops.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Getter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 @Service
 public class TacheService {
 
@@ -40,7 +42,7 @@ public class TacheService {
     }
 
     public Tache saveTache(Tache tache) {
-        Objects.requireNonNull(tache, "Tache must not be null");
+        if (tache == null) throw new IllegalArgumentException("Tache cannot be null");
         tache.setDate(LocalDateTime.now());
         return this.tacheRepository.save(tache);
     }
