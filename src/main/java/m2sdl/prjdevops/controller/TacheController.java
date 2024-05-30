@@ -35,4 +35,12 @@ public class TacheController {
     public void deleteTache(@RequestParam(name = "idTache") long idTache) {
         tacheService.deleteTache(idTache);
     }
+
+    @PatchMapping(path = "/api/updateTodo", produces = {"application/json; charset=UTF-8"})
+    public ResponseEntity<Tache> updateTache(@RequestParam(name = "idTache") long idTache,
+                                             @RequestParam(name = "tache") Tache updatedTache)
+    {
+        updatedTache.setId(idTache);
+        return new ResponseEntity<>(tacheService.saveTache(updatedTache), HttpStatus.OK);
+    }
 }
