@@ -1,5 +1,6 @@
 package m2sdl.prjdevops.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class TacheService {
     public Tache findTacheById(long id) {
         return tacheRepository
                 .findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new EntityNotFoundException("Tache with id " + id + " not found"));
     }
 
     public List<Tache> findAllTaches() {
@@ -36,34 +37,6 @@ public class TacheService {
         this.tacheRepository.findAll().forEach(allTaches::add);
 
         return allTaches;
-    }
-
-    public List<Tache> findTacheFromTexte(String texte) {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> tache.getTexte().contains(texte))
-                .toList();
-    }
-
-    public List<Tache> findTacheFromTitre(String titre) {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> tache.getTitre().contains(titre))
-                .toList();
-    }
-
-    public List<Tache> findTacheByDate(LocalDateTime date) {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> tache.getDate().equals(date))
-                .toList();
-    }
-
-    public List<Tache> findAllTachesFromDateRange(LocalDateTime dateFrom, LocalDateTime dateTo) {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> tache.getDate().isAfter(dateFrom) && tache.getDate().isBefore(dateTo))
-                .toList();
     }
 
     public Tache saveTache(Tache tache) {

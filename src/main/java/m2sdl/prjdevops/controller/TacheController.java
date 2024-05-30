@@ -1,5 +1,6 @@
 package m2sdl.prjdevops.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -25,8 +26,14 @@ public class TacheController {
         return tacheService.findAllTaches().stream().filter(Objects::nonNull).toList();
     }
 
+    @GetMapping(path = "api/todo", produces = {"application/json; charset=UTF-8"})
+    public Tache findTache(@RequestParam(name = "id") long idTache) {
+        if (idTache < 0) throw new IllegalArgumentException("idTache is negative.");
+
+        return tacheService.findTacheById(idTache);
+    }
+
     @PostMapping(path = "api/addTodo", produces = {"application/json; charset=UTF-8"})
-    @ResponseBody
     public ResponseEntity<Tache> addTache(@RequestParam(name = "tache") Tache tache) {
         return new ResponseEntity<>(tacheService.saveTache(tache), HttpStatus.CREATED);
     }
@@ -38,9 +45,22 @@ public class TacheController {
 
     @PatchMapping(path = "/api/updateTodo", produces = {"application/json; charset=UTF-8"})
     public ResponseEntity<Tache> updateTache(@RequestParam(name = "idTache") long idTache,
-                                             @RequestParam(name = "tache") Tache updatedTache)
+                                             @RequestParam(name = "titre") String updatedTitre,
+                                             @RequestParam(name = "texte") String updatedTexte)
     {
-        updatedTache.setId(idTache);
-        return new ResponseEntity<>(tacheService.saveTache(updatedTache), HttpStatus.OK);
+        if (updatedTitre == null || updatedTexte == null || updatedTitre.isBlank() || updatedTexte.isBlank())
+            //isBlank vérifie si le String n'est pas vide et ne contient pas que des espaces.
+            throw new IllegalArgumentException("Titre or texte is empty or only contains whitespaces");
+
+        Tache tacheToUpdate = tacheService.findTacheById(idTache);
+        if (tacheToUpdate != null) {
+           tacheToUpdate.setTitre(updatedTitre);
+           tacheToUpdate.setTexte(updatedTexte);
+
+           return new ResponseEntity<>(tacheService.saveTache(tacheToUpdate), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 }
