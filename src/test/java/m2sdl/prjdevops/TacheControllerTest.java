@@ -32,7 +32,7 @@ public class TacheControllerTest {
 
     @Test
     void testAddTache() {
-        tacheController.addTache(new Tache("Finances", "Changer de banque"));
+        tacheController.addTache("Finances", "Changer de banque");
 
         verify(tacheService).saveTache(any(Tache.class));
     }
@@ -60,9 +60,7 @@ public class TacheControllerTest {
 
     @Test
     void testUpdateTache() {
-        Tache tache = new Tache("Finances", "Changer de banque");
-
-        tacheController.addTache(tache);
+        tacheController.addTache("Finances", "Faire un virement");
 
         tacheController.updateTache(any(Long.class), "Finances", "Faire un virement");
         verify(tacheService).saveTache(any(Tache.class));
