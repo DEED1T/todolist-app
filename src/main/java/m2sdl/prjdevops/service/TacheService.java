@@ -7,9 +7,7 @@ import m2sdl.prjdevops.repository.TacheRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Service
@@ -37,6 +35,7 @@ public class TacheService {
         List<Tache> allTaches = new ArrayList<>();
 
         this.tacheRepository.findAll().forEach(allTaches::add);
+        allTaches.sort(Comparator.comparing(Tache::getDate));
 
         return allTaches;
     }
