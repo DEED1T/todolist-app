@@ -42,7 +42,7 @@ public class TacheService {
 
     public Tache saveTache(Tache tache) {
         if (tache == null) throw new IllegalArgumentException("Tache cannot be null");
-        tache.setDate(LocalDateTime.now());
+        if (tache.getDate() == null) tache.setDate(LocalDateTime.now());
         return this.tacheRepository.save(tache);
     }
 
