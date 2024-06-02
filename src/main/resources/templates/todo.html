@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>My Todos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<div class="jumbotron" th:action="@{/todo/{id}(id=${tache.id})}" th:object="${tache}">
+    <h1 class="display-4">[[${tache.titre}]]</h1>
+    <p class="lead">[[${tache.texte}]]</p>
+    <hr class="my-4">
+    <p>Crée le : [[${tache.getDate().getDayOfMonth()}]]/[[${tache.getDate().getMonthValue()}]]/[[${tache.getDate().getYear()}]] à [[${tache.getDate().getHour()}]]h [[${tache.getDate().getMinute()}]]min et [[${tache.getDate().getSecond()}]]sec. :)</p>
+    <p class="lead">
+        <a th:href="@{/todos}" role="button">Retourner à la liste.</a>
+    </p>
+</div>
+</body>
+</html>
