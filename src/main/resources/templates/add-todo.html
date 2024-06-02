@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter une nouvelle tâche</title>
+</head>
+<body>
+    <form action="#" th:action="@{/addtodo}" th:object="${tache}" method="post">
+        <label for="titre">Titre</label>
+        <input type="text" th:field="*{titre}" id="titre" placeholder="Titre de la tache">
+        <span th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}"></span>
+        <br>
+        <label for="texte">Description</label>
+        <input type="text" th:field="*{texte}" id="texte" placeholder="Description de la tache">
+        <span th:if="${#fields.hasErrors('titre')}" th:errors="*{texte}"></span>
+        <br>
+        <input type="submit" value="Ajouter tache">
+    </form>
+</body>
+</html>

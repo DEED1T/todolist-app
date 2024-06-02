@@ -1,4 +1,4 @@
-package m2sdl.prjdevops.controller;
+package m2sdl.prjdevops.controller.rest;
 
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Setter
-@RestController
+@RestController("apiTodos")
 public class TacheController {
 
     private final TacheService tacheService;
