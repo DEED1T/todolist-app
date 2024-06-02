@@ -1,6 +1,5 @@
 package m2sdl.prjdevops;
 
-import jakarta.persistence.EntityNotFoundException;
 import m2sdl.prjdevops.repository.TacheRepository;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -35,7 +34,7 @@ class TacheServiceTest {
 
     @Test
     void testFindByIdFromCrudRepositoryIsInvokedWhenTacheIsFoundById() {
-        assertThrows(EntityNotFoundException.class, () -> tacheService.findTacheById(0L));
+        assertNull(tacheService.findTacheById(0L));
         verify(tacheService.getTacheRepository()).findById(0L);
     }
 

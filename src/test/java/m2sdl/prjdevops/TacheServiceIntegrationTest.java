@@ -1,6 +1,5 @@
 package m2sdl.prjdevops;
 
-import jakarta.persistence.EntityNotFoundException;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +59,7 @@ class TacheServiceIntegrationTest {
 
     @Test
     void givenANegativeId_whenGetTache_thenThrowException() {
-        assertThrows(EntityNotFoundException.class, () -> tacheService.findTacheById(-1L));
+        assertNull(tacheService.findTacheById(-1L));
     }
 
     @Test
@@ -135,7 +134,7 @@ class TacheServiceIntegrationTest {
     void givenATache_whenTacheIsDeleted_thenTacheIsDeletedFromDB() {
         tacheService.deleteTache(tache2.getId());
 
-        assertThrows(EntityNotFoundException.class, () -> tacheService.findTacheById(tache2.getId()));
+        assertNull(tacheService.findTacheById(tache2.getId()));
     }
 
     @Test

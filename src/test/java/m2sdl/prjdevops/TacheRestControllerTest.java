@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class TacheControllerTest {
+public class TacheRestControllerTest {
     private TacheController tacheController;
 
     @MockBean

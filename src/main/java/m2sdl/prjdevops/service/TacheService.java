@@ -1,6 +1,5 @@
 package m2sdl.prjdevops.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.Getter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
@@ -28,7 +27,7 @@ public class TacheService {
     public Tache findTacheById(long id) {
         return tacheRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tache with id " + id + " not found"));
+                .orElse(null);
     }
 
     public List<Tache> findAllTaches() {

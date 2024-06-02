@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
-public class TacheControllerIntegrationTest {
+public class TacheRestControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
 

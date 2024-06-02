@@ -1,6 +1,5 @@
 package m2sdl.prjdevops.controller.web;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -21,17 +20,23 @@ public class TacheWebController {
         this.tacheService = tacheService;
     }
 
+    @GetMapping(path = "/")
+    public String index() {
+        return "redirect:/todos";
+    }
+
     @GetMapping(path = "/todo/{id}")
     public String getTodo(@PathVariable int id, Model model) {
         if (id < 0) throw new IllegalArgumentException("idTache is negative.");
 
-        try {
-            Tache fetchedTache = this.tacheService.findTacheById(id);
+        Tache fetchedTache = this.tacheService.findTacheById(id);
+        if (fetchedTache != null) {
             model.addAttribute("tache", fetchedTache);
-            return "redirect:/todo/" + id;
-        } catch (EntityNotFoundException e) {
+            return "todo";
+        } else {
             return "error";
         }
+
     }
 
     @GetMapping(path = "/todos")
@@ -42,8 +47,7 @@ public class TacheWebController {
 
     @PostMapping(path = "/addtodo")
     public String addtodo(@Valid Tache tache,
-                          BindingResult bindingResult,
-                          Model model) {
+                          BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             LOGGER.error(bindingResult.getAllErrors());
@@ -65,14 +69,14 @@ public class TacheWebController {
 
     @GetMapping(path = "/todo/edit/{id}")
     public String showEditTodoForm(@PathVariable(value = "id") long id, Model model) {
-        try {
-            Tache fetchedTache = this.tacheService.findTacheById(id);
+        Tache fetchedTache = this.tacheService.findTacheById(id);
+        if(fetchedTache != null) {
             model.addAttribute("tacheToUpdate", fetchedTache);
             return "edit-todo";
-        } catch (EntityNotFoundException e) {
-            LOGGER.error(e.getMessage());
+        } else {
             return "error";
         }
+
     }
 
     @GetMapping(path = "/newTodo")
@@ -83,7 +87,7 @@ public class TacheWebController {
     }
 
     @PostMapping(path = "/todo/save/{id}")
-    public String saveTodo(@PathVariable long id, @ModelAttribute("tache") Tache tache, BindingResult bindingResult, Model model) {
+    public String saveTodo(@PathVariable long id, @ModelAttribute("tache") Tache tache, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             LOGGER.error(bindingResult.getAllErrors());
             tache.setId(id);
