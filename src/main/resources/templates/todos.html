@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" content="text/html">
     <title>My Todos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <style>
     table {
@@ -44,18 +45,14 @@
                     <td th:text="${tache.getDate().getDayOfMonth() + '/' + tache.getDate().getMonthValue() + '/' + tache.getDate().getYear() + ' ' + tache.getDate().getHour() + ':' + tache.getDate().getMinute() + ':' + tache.getDate().getSecond()}"></td>
                     <td>
                         <form th:method="get" th:actions="${'/todo/' + tache.id}">
-                            <button class="w3-button w3-black" type="submit">Voir</button>
+                            <a><button class="btn btn-primary" type="submit">Voir</button></a>
                         </form>
                     </td>
                     <td>
-                        <form th:method="get" th:actions="${'/todo/edit/' + tache.id}">
-                            <button class="w3-button w3-black" type="submit">Editer</button>
-                        </form>
+                        <a th:href="@{/todo/edit/{id}(id=${tache.id})}" class="btn btn-secondary">Editer</a>
                     </td>
                     <td>
-                        <form th:method="get" th:actions="${'/todo/delete/' + tache.id}">
-                            <button class="w3-button w3-black" type="submit">Supprimer</button>
-                        </form>
+                        <a th:href="@{/todo/delete/{id}(id=${tache.id})}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
             </table>
