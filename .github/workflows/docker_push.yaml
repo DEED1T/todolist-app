@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Ansible Playbook for app deployment
         run: |
-          ansible-playbook ansible/app.yaml -i ansible/inventories/hosts.yaml
+          ansible-playbook ansible/app.yaml -i ansible/inventories/hosts.yaml -vvv
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
