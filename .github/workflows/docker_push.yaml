@@ -53,30 +53,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see "[AUTOTITLE](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)."
-      #- name: Generate artifact attestation
-      #  uses: actions/attest-build-provenance@v1
-      #  with:
-      #    subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-      #    subject-digest: ${{ steps.push.outputs.digest }}
-      #    push-to-registry: true
+      - name: add SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-  pull-and-deploy-image:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Ansible Playbook
+      - name: Run Ansible Playbook for app deployment
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml
+          ansible-playbook ansible/app.yaml -i ansible/inventories/hosts.yaml
