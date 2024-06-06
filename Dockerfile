@@ -14,4 +14,4 @@ RUN mvn clean package -DskipTests
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "target/TodolistApplication.jar"]
