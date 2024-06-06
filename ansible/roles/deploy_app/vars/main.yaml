@@ -1,4 +1,4 @@
 registry: ghcr.io
 username: "{{ lookup('env', 'GITHUB_ACTOR') }}"
 password: "{{ lookup('env', 'GHCR_PAT') }}"
-image: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:latest'
+image: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:main'
