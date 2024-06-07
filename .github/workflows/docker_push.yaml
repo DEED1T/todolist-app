@@ -87,5 +87,5 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
-          IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:${{ env.TAG_NAME }}'
+          IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:latest'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
