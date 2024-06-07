@@ -67,7 +67,7 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
-          DOMAIN_NAME: '`app.topin060.master-sdl.ovh`'
+          DOMAIN_NAME: "Host(`app.topin060.master-sdl.ovh`)"
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:app-pull-deployment'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
 
@@ -78,7 +78,7 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
-          DOMAIN_NAME: '`app.topin060.master-sdl.ovh`'
+          DOMAIN_NAME: "Host(`app.topin060.master-sdl.ovh`)"
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:main'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
 
@@ -89,6 +89,6 @@ jobs:
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
-          DOMAIN_NAME: '`app.notdelirious.master-sdl.ovh`'
+          DOMAIN_NAME: "Host(`app.notdelirious.master-sdl.ovh`)"
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:latest'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
