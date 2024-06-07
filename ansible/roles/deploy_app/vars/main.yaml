@@ -2,3 +2,4 @@ registry: ghcr.io
 username: "{{ lookup('env', 'GITHUB_ACTOR') }}"
 password: "{{ lookup('env', 'GHCR_PAT') }}"
 image: "{{ lookup('env', 'IMAGE') }}"
+traefik_rule: "{{ lookup('env', 'DOMAIN_NAME') }}"

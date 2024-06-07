@@ -14,7 +14,7 @@
       - traefik
     labels:
       traefik.enable: "true"
-      traefik.http.routers.todolistapp.rule: "Host(`app.topin060.master-sdl.ovh`)"
+      traefik.http.routers.todolistapp.rule: "Host("{{ traefik_rule }}")"
       traefik.http.routers.todolistapp.entrypoints: "websecure"
       traefik.http.routers.todolistapp.tls.certresolver: "letsencryptresolver"
       traefik.http.services.todolistapp.loadbalancer.server.port: "8080"
