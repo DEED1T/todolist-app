@@ -59,17 +59,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Run Ansible Playbook for app deployment dev
-        if: github.ref == 'refs/heads/app-pull-deployment'
-        run: |
-          ansible-playbook ansible/app.yaml -i ansible/inventories/hosts.yaml -vvv
-        env:
-          GHCR_PAT: ${{ secrets.GHCR_PAT }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          DOMAIN_NAME: "Host(`app.topin060.master-sdl.ovh`)"
-          IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:app-pull-deployment'
-          ANSIBLE_HOST_KEY_CHECKING: 'false'
-
       - name: Run Ansible Playbook for app deployment preprod
         if: github.ref == 'refs/heads/main'
         run: |
