@@ -3,11 +3,13 @@ package m2sdl.prjdevops;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @DataJpaTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
 public class TacheRepositoryIntegrationTest {
