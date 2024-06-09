@@ -6,12 +6,21 @@
     password: "{{ password }}"
     reauthorize: yes
 
+- name: Create volume for app
+  docker_volume:
+    name: todolistdata
+    state: present
+
 - name: Deploy Todolistapp
   community.docker.docker_swarm_service:
     name: todolistapp
     image: "{{ image }}"
     networks:
       - traefik
+    mounts:
+      - source: todolistdata
+        target: /data
+        type: volume
     labels:
       traefik.enable: "true"
       traefik.http.routers.todolistapp.rule: "{{ traefik_rule }}"

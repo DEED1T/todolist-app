@@ -2,6 +2,8 @@ FROM openjdk:17-jdk-alpine
 
 RUN apk add --no-cache maven
 
+RUN mkdir -p /data
+
 WORKDIR /app
 
 COPY pom.xml .
