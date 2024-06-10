@@ -1,5 +1,6 @@
 package m2sdl.prjdevops;
 
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import m2sdl.prjdevops.repository.TacheRepository;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class TacheServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.tacheService = new TacheService(tacheRepository);
+        this.tacheService = new TacheService(tacheRepository, new CompositeMeterRegistry());
     }
 
     @Test

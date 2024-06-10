@@ -21,15 +21,13 @@ public class TacheRestControllerTest {
 
     @MockBean
     private TacheService tacheService;
-    @MockBean
-    private MeterRegistry meterRegistry;
 
     @MockBean
     private Tache tache;
 
     @BeforeEach
     public void setUp() {
-        this.tacheController = new TacheController(tacheService, meterRegistry);
+        this.tacheController = new TacheController(tacheService);
 
         when(tacheService.findTacheById(1L)).thenReturn(tache);
     }

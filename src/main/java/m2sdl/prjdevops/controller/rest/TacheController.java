@@ -1,7 +1,11 @@
 package m2sdl.prjdevops.controller.rest;
 
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -20,13 +24,11 @@ import java.util.Objects;
 public class TacheController {
 
     private final TacheService tacheService;
-    private final MeterRegistry meterRegistry;
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public TacheController(TacheService tacheService, MeterRegistry meterRegistry) {
+    public TacheController(TacheService tacheService) {
         this.tacheService = tacheService;
-        this.meterRegistry = meterRegistry;
     }
 
     @GetMapping(path = "api/todos", produces = {"application/json; charset=UTF-8"})
@@ -43,11 +45,6 @@ public class TacheController {
 
     @PostMapping(path = "api/addTodo", produces = {"application/json; charset=UTF-8"})
     public ResponseEntity<Tache> addTache(@RequestParam(name = "titre") String titre, @RequestParam(name = "texte") String texte) {
-        final Timer addTimer = Timer.builder("add.tache.bdd.responsetime")
-                .description("Average insertion time of a Tache in Database.")
-                .register(meterRegistry);
-
-        addTimer.record(() -> tacheService.saveTache(new Tache(titre, texte)));
 
         return new ResponseEntity<>(tacheService.saveTache(new Tache(titre, texte)), HttpStatus.CREATED);
     }
