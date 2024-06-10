@@ -1,7 +1,9 @@
 package m2sdl.prjdevops;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import m2sdl.prjdevops.controller.rest.TacheController;
 import m2sdl.prjdevops.domain.Tache;
+import m2sdl.prjdevops.repository.TacheRepository;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,13 +21,15 @@ public class TacheRestControllerTest {
 
     @MockBean
     private TacheService tacheService;
+    @MockBean
+    private MeterRegistry meterRegistry;
 
     @MockBean
     private Tache tache;
 
     @BeforeEach
     public void setUp() {
-        this.tacheController = new TacheController(tacheService);
+        this.tacheController = new TacheController(tacheService, meterRegistry);
 
         when(tacheService.findTacheById(1L)).thenReturn(tache);
     }
