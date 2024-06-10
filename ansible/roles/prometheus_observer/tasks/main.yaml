@@ -1,0 +1,22 @@
+---
+- name : Install Prometheus
+  hosts : monitor
+  become: yes
+  vars :
+    - version : "2.52.0"
+  tasks :
+    - name : Download Prometheus v2.52.0 on Github
+      unarchive :
+        src : "https://github.com/prometheus/prometheus/releases/download/v{{ version }}/prometheus-2.52.0.linux-amd64.tar.gz"
+        dest : root
+        remote_src : yes
+    - name : Copy Prometheus files to bin
+      copy :
+        src : "/root/prometheus-{{ version }}.linux-amd64/prometheus"
+        dest : "/usr/local/bin"
+        remote_src : yes
+        mode : 0755
+    - name : Copy configuration file
+      template :
+        src : prometheus.yml
+        dest : "/root/prometheus-{{ version }}.linux-amd64/prometheus"
