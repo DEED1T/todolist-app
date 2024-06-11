@@ -69,6 +69,7 @@ jobs:
           DOMAIN_NAME: "Host(`app.topin060.master-sdl.ovh`)"
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:main'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
+          HOST: 'preprod'
 
       - name: Run Ansible Playbook for app deployment prod
         if: startsWith(github.ref, 'refs/tags/')
@@ -80,3 +81,4 @@ jobs:
           DOMAIN_NAME: "Host(`app.notdelirious.master-sdl.ovh`)"
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:latest'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
+          HOST: 'prod'

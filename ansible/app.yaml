@@ -1,6 +1,6 @@
 ---
 - name: Deploy TodoList application
   hosts:
-    - preprod
+    - "{{ lookup('env', 'HOST') }}"
   roles:
     - deploy_app
