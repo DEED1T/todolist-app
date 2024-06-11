@@ -55,7 +55,7 @@ jobs:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
           DOMAIN_NAME: "Host(`app.topin060.master-sdl.ovh`)"
-          IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:feat/actuator-micrometer-prometheus-metrics'
+          IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:feat-actuator-micrometer-prometheus-metrics'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
           HOST: 'preprod'
 
