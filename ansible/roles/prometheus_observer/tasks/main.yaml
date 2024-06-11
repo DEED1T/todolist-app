@@ -5,6 +5,7 @@
     state: present
   loop:
     - prometheus_data
+
 - name: Create a directory if it does not exist
   ansible.builtin.file:
     path: "{{ prometheus_config_dir }}/.docker"
