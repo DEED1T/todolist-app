@@ -1,0 +1,5 @@
+version : "2.52.0"
+prometheus_config_path: "/config/prometheus.yml"
+traefik_host: "app.deed1t.master-sdl.ovh"
+preprod_target: "app.topin060.master-sdl.ovh:9090"
+prod_target: "app.notdelirious.master-sdl.ovh:9090"
