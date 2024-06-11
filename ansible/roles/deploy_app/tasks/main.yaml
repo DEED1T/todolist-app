@@ -1,0 +1,29 @@
+---
+- name: Log into private registry and force re-authorization
+  docker_login:
+    registry: "{{ registry }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    reauthorize: yes
+
+- name: Create volume for app
+  docker_volume:
+    name: todolistdata
+    state: present
+
+- name: Deploy Todolistapp
+  community.docker.docker_swarm_service:
+    name: todolistapp
+    image: "{{ image }}"
+    networks:
+      - traefik
+    mounts:
+      - source: todolistdata
+        target: /data
+        type: volume
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.todolistapp.rule: "{{ traefik_rule }}"
+      traefik.http.routers.todolistapp.entrypoints: "websecure"
+      traefik.http.routers.todolistapp.tls.certresolver: "letsencryptresolver"
+      traefik.http.services.todolistapp.loadbalancer.server.port: "8080"

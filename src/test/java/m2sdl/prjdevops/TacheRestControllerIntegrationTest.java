@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @Transactional
 public class TacheRestControllerIntegrationTest {
     @Autowired
@@ -58,17 +58,15 @@ public class TacheRestControllerIntegrationTest {
         mvc.perform(get("/api/todos"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-
+                .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[0].id", is(tache1.getId().intValue())))
                 .andExpect(jsonPath("$[1].id", is(tache2.getId().intValue())))
                 .andExpect(jsonPath("$[2].id", is(tache3.getId().intValue())))
                 .andExpect(jsonPath("$[3].id", is(tache4.getId().intValue())))
-
                 .andExpect(jsonPath("$[0].titre", is(tache1.getTitre())))
                 .andExpect(jsonPath("$[1].titre", is(tache2.getTitre())))
                 .andExpect(jsonPath("$[2].titre", is(tache3.getTitre())))
                 .andExpect(jsonPath("$[3].titre", is(tache4.getTitre())))
-
                 .andExpect(jsonPath("$[0].texte", is(tache1.getTexte())))
                 .andExpect(jsonPath("$[1].texte", is(tache2.getTexte())))
                 .andExpect(jsonPath("$[2].texte", is(tache3.getTexte())))
@@ -77,10 +75,9 @@ public class TacheRestControllerIntegrationTest {
 
     @Test
     void givenATache_whenFindTacheById_thenReturnTacheJsonSuccess() throws Exception {
-        mvc.perform(get("/api/todo?id=" + 1L))
+        mvc.perform(get("/api/todo?id=" + tache1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-
                 .andExpect(jsonPath("$.id", is(tache1.getId().intValue())))
                 .andExpect(jsonPath("$.titre", is(tache1.getTitre())))
                 .andExpect(jsonPath("$.texte", is(tache1.getTexte())));
@@ -97,7 +94,6 @@ public class TacheRestControllerIntegrationTest {
         mvc.perform(post("/api/addTodo?titre=" + tache2.getTitre() + "&texte=" + tache2.getTexte()))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(contentType))
-
                 .andExpect(jsonPath("$.titre", is(tache2.getTitre())))
                 .andExpect(jsonPath("$.texte", is(tache2.getTexte())));
     }
@@ -109,7 +105,6 @@ public class TacheRestControllerIntegrationTest {
         mvc.perform(patch("/api/updateTodo?id=" + tache3.getId() + "&texte=" + newTacheTexte))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-
                 .andExpect(jsonPath("$.id", is(tache3.getId().intValue())))
                 .andExpect(jsonPath("$.titre", is(tache3.getTitre())))
                 .andExpect(jsonPath("$.texte", is(newTacheTexte)));
@@ -122,7 +117,6 @@ public class TacheRestControllerIntegrationTest {
         mvc.perform(patch("/api/updateTodo?id=" + tache4.getId() + "&titre=" + newTacheTitre))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-
                 .andExpect(jsonPath("$.id", is(tache4.getId().intValue())))
                 .andExpect(jsonPath("$.titre", is(newTacheTitre)))
                 .andExpect(jsonPath("$.texte", is(tache4.getTexte())));
@@ -139,9 +133,8 @@ public class TacheRestControllerIntegrationTest {
         long countach = tacheService.countTaches();
 
         mvc.perform(delete("/api/deleteTodo?id=" + tache4.getId()))
-        .andExpect(status().isOk());
+                .andExpect(status().isOk());
 
         assertEquals(countach - 1, tacheService.countTaches());
     }
-
 }

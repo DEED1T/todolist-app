@@ -1,0 +1,6 @@
+---
+- name: Deploy TodoList application
+  hosts:
+    - "{{ lookup('env', 'HOST') }}"
+  roles:
+    - deploy_app
