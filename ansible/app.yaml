@@ -1,0 +1,6 @@
+---
+- name: Deploy TodoList application
+  hosts:
+    - preprod
+  roles:
+    - deploy_app
