@@ -21,6 +21,10 @@
       - source: todolistdata
         target: /data
         type: volume
+    publish:
+      - target_port: 8080
+        published_port: 8080
+        mode: host
     labels:
       traefik.enable: "true"
       traefik.http.routers.todolistapp.rule: "{{ traefik_rule }}"
