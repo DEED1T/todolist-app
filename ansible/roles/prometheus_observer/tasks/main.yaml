@@ -24,9 +24,10 @@
         type: bind
     networks:
       - traefik
-    ports:
-      - published: 9090
-        target: 9090
+    publish:
+      - target_port: 9090
+        published_port: 9090
+        mode: host
     env:
       - "TZ=UTC"
     labels:
