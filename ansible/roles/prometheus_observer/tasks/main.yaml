@@ -24,11 +24,14 @@
         type: bind
     networks:
       - traefik
+    ports:
+      - published: 9090
+        target: 9090
     env:
       - "TZ=UTC"
     labels:
       traefik.enable: "true"
+      traefik.http.routers.prometheus.rule: "Host(`{{ traefik_host }}`)"
       traefik.http.routers.prometheus.entrypoints: "websecure"
       traefik.http.routers.prometheus.tls.certresolver: "letsencryptresolver"
-      traefik.http.routers.prometheus.rule: "Host(`{{ traefik_host }}`)"
       traefik.http.services.prometheus.loadbalancer.server.port: "9090"
