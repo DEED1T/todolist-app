@@ -16,6 +16,7 @@
   template:
     src: templates/prometheus.yml.j2
     dest: "{{ prometheus_config_path }}"
+  register: config
 
 - name: Deploy Prometheus
   community.docker.docker_swarm_service:
@@ -42,3 +43,7 @@
       traefik.http.routers.prometheus.entrypoints: "websecure"
       traefik.http.routers.prometheus.tls.certresolver: "letsencryptresolver"
       traefik.http.services.prometheus.loadbalancer.server.port: "9090"
+
+- name: Force update Prometheus service
+  command: docker service update --force prometheus
+  when: config.changed
