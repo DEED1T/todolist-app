@@ -20,6 +20,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-          ansible-playbook ansible/prometheus.yaml -i ansible/inventories/hosts.yaml
+          ansible-playbook ansible/prometheus.yaml -i ansible/inventories/hosts.yaml -vvv
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
