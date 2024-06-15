@@ -2,8 +2,6 @@ name: Tools & Packages installation
 
 on:
   push:
-    branches:
-      - 'dev' # for testing/debugging
     tags:
       - '**'
 
