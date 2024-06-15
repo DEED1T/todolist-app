@@ -1,5 +1,0 @@
----
-- name: Deploy Prometheus
-  hosts: monitor
-  roles:
-    - prometheus_observer
