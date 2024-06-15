@@ -2,6 +2,8 @@ name: Tools & Packages installation
 
 on:
   push:
+    branches:
+      - 'dev' # for testing/debugging
     tags:
       - '**'
 
@@ -23,3 +25,4 @@ jobs:
           ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
+          STATE: 'tools'

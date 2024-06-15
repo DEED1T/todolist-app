@@ -1,15 +1,32 @@
 ---
-- name: Docker setup
+- name: Setup SSH
+  when: state ==  'ssh'
   hosts: all
   roles:
-    - docker_install
+    - ssh_setup #This role is designed to run only once for preparing the future infra
 
-- name: Traefik setup
-  hosts: all
-  roles:
-    - traefik_service
+- name: Install required tools & packages
+  when: state == 'tools'
+  block:
+    - name: Docker setup
+      hosts: all
+      roles:
+        - docker_install
 
-- name: Sonarqube setup
-  hosts: monitor
+    - name: Traefik setup
+      hosts: all
+      roles:
+        - traefik_service
+
+    - name: Monitoring setup
+      hosts: monitor
+      roles:
+        - sonar_service
+        - prometheus_observer
+
+- name: Deploy TodoList App
+  when: state == 'app'
+  hosts:
+    - "{{ lookup('env', 'HOST') }}"
   roles:
-    - sonar_service
+    - deploy_app
