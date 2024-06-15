@@ -1,12 +1,11 @@
 ---
 - name: Setup SSH
-  when: state ==  'ssh'
   hosts: all
   roles:
     - ssh_setup #This role is designed to run only once for preparing the future infra
+  when: state == 'ssh'
 
 - name: Install required tools & packages
-  when: state == 'tools'
   block:
     - name: Docker setup
       hosts: all
@@ -23,10 +22,11 @@
       roles:
         - sonar_service
         - prometheus_observer
+  when: state == 'tools'
 
 - name: Deploy TodoList App
-  when: state == 'app'
   hosts:
     - "{{ lookup('env', 'HOST') }}"
   roles:
     - deploy_app
+  when: state == 'app'
