@@ -2,6 +2,8 @@ package m2sdl.prjdevops;
 
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +31,13 @@ class TacheServiceIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.tache1 = new Tache("Cours", "Acheter des stylos", "Jacques");
+        this.tache1 = new Tache("Cours", "Acheter des stylos", "Alain");
         this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots", "Alain");
         this.tache3 = new Tache("Sport", "Changer de vélo", "Albert");
         this.tache4 = new Tache("Bricolage", "Réparer le pied de la table", "Aline");
+
+        this.tache1.setIsDone(true);
+        this.tache4.setIsDone(true);
 
         this.tache1 = tacheService.saveTache(this.tache1);
         this.tache2 = tacheService.saveTache(this.tache2);
@@ -122,5 +127,42 @@ class TacheServiceIntegrationTest {
         long countach = tacheService.countTaches();
         tacheService.deleteTache(tache2.getId());
         assertEquals(countach - 1, tacheService.countTaches(), "Count of Taches was not decremented by one. Should be 3 and not 4.");
+    }
+
+    @Test
+    void givenAUser_whenGetTachesForUtilisateur_thenTachesAreForThisUtilisateur() {
+        List<Tache> tachesAlain = tacheService.findTacheByUtilisateur("Alain");
+
+        assertAll("Tache list is 2 and Alain is the assignee for ALL taches",
+                () -> assertEquals(2, tachesAlain.size()),
+                () -> assertEquals("Alain", tachesAlain.get(0).getUtilisateur()),
+                () -> assertEquals("Alain", tachesAlain.get(1).getUtilisateur())
+        );
+    }
+
+    @Test
+    void givenCompletedTaches_whenGetCompletedTaches_thenAllReturnedTachesBooleanIsDoneIsTrue() {
+        List<Tache> completedTaches = tacheService.findCompletedTaches();
+        assertAll("There are only 2 taches and they have been completed.",
+                () -> assertEquals(2, completedTaches.size()),
+                () -> assertTrue(completedTaches.get(0).getIsDone()),
+                () -> assertTrue(completedTaches.get(1).getIsDone())
+        );
+    }
+
+    @Test
+    void givenUncompletedTaches_whenGetunCompletedTaches_thenAllReturnedTachesBooleanIsDoneIsFalse() {
+        tache1.setIsDone(true);
+
+        tacheService.saveTache(tache1);
+
+        List<Tache> uncompletedTaches = tacheService.findUncompletedTaches();
+
+        assertAll("There are only 3 taches and they aren't completed.",
+                () -> assertEquals(3, uncompletedTaches.size()),
+                () -> assertFalse(uncompletedTaches.get(0).getIsDone()),
+                () -> assertFalse(uncompletedTaches.get(1).getIsDone()),
+                () -> assertFalse(uncompletedTaches.get(2).getIsDone())
+        );
     }
 }
