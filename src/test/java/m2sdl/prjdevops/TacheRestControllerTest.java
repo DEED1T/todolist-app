@@ -62,7 +62,7 @@ public class TacheRestControllerTest {
     void testUpdateTache() {
         tacheController.addTache("Finances", "Faire un virement", "Sarah");
 
-        tacheController.updateTache(any(Long.class), "Finances", "Faire un virement");
+        tacheController.updateTache(any(Long.class), "Finances", "Faire un virement", "Nathan", false);
         verify(tacheService).saveTache(any(Tache.class));
     }
 

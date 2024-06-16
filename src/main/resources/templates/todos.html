@@ -21,6 +21,8 @@
                         <th scope="col">Titre</th>
                         <th scope="col">Description</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Responsable</th>
+                        <th scope="col">Finie ?</th>
                         <th scope="col" colspan="3">Actions</th>
                     </tr>
                 </thead>
@@ -30,6 +32,8 @@
                     <!-- Pour formatter correctement la date, on peut le faire à la main ou
                     ajouter la dépendance Thymeleaf associée qui ajoute aussi une tonne de vulnérabilités. -->
                     <td th:text="${tache.getDate().getDayOfMonth() + '/' + tache.getDate().getMonthValue() + '/' + tache.getDate().getYear() + ' ' + tache.getDate().getHour() + ':' + tache.getDate().getMinute() + ':' + tache.getDate().getSecond()}"></td>
+                    <td th:text="${tache.utilisateur}"></td>
+                    <td th:text="${tache.isDone} ? 'Finie' : 'À faire'"></td>
                     <td>
                         <a th:href="@{/todo/{id}(id=${tache.id})}" class="btn btn-primary">Voir</a>
                     </td>

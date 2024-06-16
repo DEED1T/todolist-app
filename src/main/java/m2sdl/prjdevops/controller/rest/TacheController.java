@@ -53,7 +53,9 @@ public class TacheController {
     @PatchMapping(path = "/api/updateTodo", produces = {"application/json; charset=UTF-8"})
     public ResponseEntity<Tache> updateTache(@RequestParam(name = "id") long idTache,
                                              @RequestParam(name = "titre", required = false) String updatedTitre,
-                                             @RequestParam(name = "texte", required = false) String updatedTexte)
+                                             @RequestParam(name = "texte", required = false) String updatedTexte,
+                                             @RequestParam(name = "utilisateur", required = false) String updatedUtilisateur,
+                                             @RequestParam(name = "done", required = false) boolean isDone)
     {
         if (updatedTitre == null && updatedTexte == null) {
             LOGGER.warn("New todo title and text are null, exiting");
@@ -64,6 +66,8 @@ public class TacheController {
         if (tacheToUpdate != null) {
             tacheToUpdate.setTitre(updatedTitre == null ? tacheToUpdate.getTitre() : updatedTitre);
             tacheToUpdate.setTexte(updatedTexte == null ? tacheToUpdate.getTexte() : updatedTexte);
+            tacheToUpdate.setUtilisateur(updatedUtilisateur == null ? tacheToUpdate.getUtilisateur() : updatedUtilisateur);
+            tacheToUpdate.setIsDone(isDone);
 
             return new ResponseEntity<>(tacheService.saveTache(tacheToUpdate), HttpStatus.OK);
         }
