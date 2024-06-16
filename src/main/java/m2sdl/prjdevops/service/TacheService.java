@@ -70,4 +70,25 @@ public class TacheService {
 
         if (this.findTacheById(id) == null) counterTacheOperations.increment();
     }
+
+    public List<Tache> findTacheByUtilisateur(String utilisateur) {
+        return this.findAllTaches()
+                .stream()
+                .filter(tache -> tache.getUtilisateur().equals(utilisateur))
+                .toList();
+    }
+
+    public List<Tache> findCompletedTaches() {
+        return this.findAllTaches()
+                .stream()
+                .filter(Tache::getIsDone)
+                .toList();
+    }
+
+    public List<Tache> findUncompletedTaches() {
+        return this.findAllTaches()
+                .stream()
+                .filter(tache -> !tache.getIsDone())
+                .toList();
+    }
 }

@@ -1,9 +1,7 @@
 package m2sdl.prjdevops;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import m2sdl.prjdevops.controller.rest.TacheController;
 import m2sdl.prjdevops.domain.Tache;
-import m2sdl.prjdevops.repository.TacheRepository;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +32,7 @@ public class TacheRestControllerTest {
 
     @Test
     void testAddTache() {
-        tacheController.addTache("Finances", "Changer de banque");
+        tacheController.addTache("Finances", "Changer de banque", "Laura");
 
         verify(tacheService).saveTache(any(Tache.class));
     }
@@ -62,9 +60,9 @@ public class TacheRestControllerTest {
 
     @Test
     void testUpdateTache() {
-        tacheController.addTache("Finances", "Faire un virement");
+        tacheController.addTache("Finances", "Faire un virement", "Sarah");
 
-        tacheController.updateTache(any(Long.class), "Finances", "Faire un virement");
+        tacheController.updateTache(any(Long.class), "Finances", "Faire un virement", "Nathan", false);
         verify(tacheService).saveTache(any(Tache.class));
     }
 

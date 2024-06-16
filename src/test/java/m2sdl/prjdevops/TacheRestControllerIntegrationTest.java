@@ -42,10 +42,10 @@ public class TacheRestControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.tache1 = new Tache("Cours", "Acheter des stylos");
-        this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots");
-        this.tache3 = new Tache("Sport", "Changer de vélo");
-        this.tache4 = new Tache("Bricolage", "Réparer le pied de la table");
+        this.tache1 = new Tache("Cours", "Acheter des stylos", "Alex");
+        this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots", "Corinne");
+        this.tache3 = new Tache("Sport", "Changer de vélo", "Thierry");
+        this.tache4 = new Tache("Bricolage", "Réparer le pied de la table", "Kylian");
 
         this.tache1 = tacheService.saveTache(this.tache1);
         this.tache2 = tacheService.saveTache(this.tache2);
@@ -91,7 +91,7 @@ public class TacheRestControllerIntegrationTest {
 
     @Test
     void givenANewTache_whenAddTache_thenReturnTacheJsonSuccess() throws Exception {
-        mvc.perform(post("/api/addTodo?titre=" + tache2.getTitre() + "&texte=" + tache2.getTexte()))
+        mvc.perform(post("/api/addTodo?titre=" + tache2.getTitre() + "&texte=" + tache2.getTexte() + "&utilisateur=" + tache2.getUtilisateur()))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.titre", is(tache2.getTitre())))
