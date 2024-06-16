@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "tache")
+@ToString
 public class Tache {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,5 +44,12 @@ public class Tache {
         this.titre = titre;
         this.texte = description;
         this.utilisateur = utilisateur;
+    }
+
+    public Tache(String titre, String description, String utilisateur, Boolean isDone) {
+        this.titre = titre;
+        this.texte = description;
+        this.utilisateur = utilisateur;
+        this.isDone = isDone;
     }
 }

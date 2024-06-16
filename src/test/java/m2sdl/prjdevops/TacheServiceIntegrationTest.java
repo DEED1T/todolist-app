@@ -2,8 +2,6 @@ package m2sdl.prjdevops;
 
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +29,10 @@ class TacheServiceIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.tache1 = new Tache("Cours", "Acheter des stylos", "Alain");
+        this.tache1 = new Tache("Cours", "Acheter des stylos", "Alain", true);
         this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots", "Alain");
         this.tache3 = new Tache("Sport", "Changer de vélo", "Albert");
-        this.tache4 = new Tache("Bricolage", "Réparer le pied de la table", "Aline");
-
-        this.tache1.setIsDone(true);
-        this.tache4.setIsDone(true);
+        this.tache4 = new Tache("Bricolage", "Réparer le pied de la table", "Aline", true);
 
         this.tache1 = tacheService.saveTache(this.tache1);
         this.tache2 = tacheService.saveTache(this.tache2);
@@ -64,6 +59,7 @@ class TacheServiceIntegrationTest {
     @Test
     void given4Taches_whenGetAllTache_thenCardinalIs4() {
         List<Tache> taches = tacheService.findAllTaches();
+
         assertEquals(4, taches.size(), "Wrong number of Taches (Must be 4)");
     }
 
@@ -158,11 +154,10 @@ class TacheServiceIntegrationTest {
 
         List<Tache> uncompletedTaches = tacheService.findUncompletedTaches();
 
-        assertAll("There are only 3 taches and they aren't completed.",
-                () -> assertEquals(3, uncompletedTaches.size()),
+        assertAll("There are only 2 taches and they aren't completed.",
+                () -> assertEquals(2, uncompletedTaches.size()),
                 () -> assertFalse(uncompletedTaches.get(0).getIsDone()),
-                () -> assertFalse(uncompletedTaches.get(1).getIsDone()),
-                () -> assertFalse(uncompletedTaches.get(2).getIsDone())
+                () -> assertFalse(uncompletedTaches.get(1).getIsDone())
         );
     }
 }
