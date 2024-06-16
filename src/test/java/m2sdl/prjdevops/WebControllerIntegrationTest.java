@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class WebControllerIntegrationTest {
+class WebControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -43,7 +43,7 @@ public class WebControllerIntegrationTest {
     @Nested
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     @Transactional
-    public class otherTests {
+    class otherTests {
         private Tache tache1, tache2, tache3, tache4;
 
         @BeforeEach
