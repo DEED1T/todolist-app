@@ -124,40 +124,4 @@ class TacheServiceIntegrationTest {
         tacheService.deleteTache(tache2.getId());
         assertEquals(countach - 1, tacheService.countTaches(), "Count of Taches was not decremented by one. Should be 3 and not 4.");
     }
-
-    @Test
-    void givenAUser_whenGetTachesForUtilisateur_thenTachesAreForThisUtilisateur() {
-        List<Tache> tachesAlain = tacheService.findTacheByUtilisateur("Alain");
-
-        assertAll("Tache list is 2 and Alain is the assignee for ALL taches",
-                () -> assertEquals(2, tachesAlain.size()),
-                () -> assertEquals("Alain", tachesAlain.get(0).getUtilisateur()),
-                () -> assertEquals("Alain", tachesAlain.get(1).getUtilisateur())
-        );
-    }
-
-    @Test
-    void givenCompletedTaches_whenGetCompletedTaches_thenAllReturnedTachesBooleanIsDoneIsTrue() {
-        List<Tache> completedTaches = tacheService.findCompletedTaches();
-        assertAll("There are only 2 taches and they have been completed.",
-                () -> assertEquals(2, completedTaches.size()),
-                () -> assertTrue(completedTaches.get(0).getIsDone()),
-                () -> assertTrue(completedTaches.get(1).getIsDone())
-        );
-    }
-
-    @Test
-    void givenUncompletedTaches_whenGetunCompletedTaches_thenAllReturnedTachesBooleanIsDoneIsFalse() {
-        tache1.setIsDone(true);
-
-        tacheService.saveTache(tache1);
-
-        List<Tache> uncompletedTaches = tacheService.findUncompletedTaches();
-
-        assertAll("There are only 2 taches and they aren't completed.",
-                () -> assertEquals(2, uncompletedTaches.size()),
-                () -> assertFalse(uncompletedTaches.get(0).getIsDone()),
-                () -> assertFalse(uncompletedTaches.get(1).getIsDone())
-        );
-    }
 }

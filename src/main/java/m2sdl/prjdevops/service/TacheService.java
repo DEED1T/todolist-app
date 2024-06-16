@@ -52,6 +52,8 @@ public class TacheService {
         List<Tache> allTaches = new ArrayList<>();
 
         this.tacheRepository.findAll().forEach(allTaches::add);
+
+        //Ordonner par date
         allTaches.sort(Comparator.comparing(Tache::getDate));
 
         return allTaches;
@@ -66,29 +68,10 @@ public class TacheService {
     }
 
     public void deleteTache(long id) {
-        this.tacheRepository.deleteById(id);
-
-        if (this.findTacheById(id) == null) counterTacheOperations.increment();
-    }
-
-    public List<Tache> findTacheByUtilisateur(String utilisateur) {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> tache.getUtilisateur().equals(utilisateur))
-                .toList();
-    }
-
-    public List<Tache> findCompletedTaches() {
-        return this.findAllTaches()
-                .stream()
-                .filter(Tache::getIsDone)
-                .toList();
-    }
-
-    public List<Tache> findUncompletedTaches() {
-        return this.findAllTaches()
-                .stream()
-                .filter(tache -> !tache.getIsDone())
-                .toList();
+        // Pour s'assurer que la tache existe.
+        if (this.findTacheById(id) != null) {
+            this.tacheRepository.deleteById(id);
+            counterTacheOperations.increment();
+        }
     }
 }
