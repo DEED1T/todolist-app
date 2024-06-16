@@ -8,7 +8,7 @@
 
 - name: Create volume for app
   docker_volume:
-    name: todolistdata
+    name: todolistdata_one
     state: present
 
 - name: Deploy Todolistapp
@@ -19,9 +19,9 @@
     networks:
       - traefik
     mounts:
-      - source: /data
+      - source: todolistdata_one
         target: /data
-        type: bind
+        type: volume
     publish:
       - target_port: 8080
         published_port: 8080
