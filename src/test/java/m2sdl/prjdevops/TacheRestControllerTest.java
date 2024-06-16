@@ -1,7 +1,9 @@
 package m2sdl.prjdevops;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import m2sdl.prjdevops.controller.rest.TacheController;
 import m2sdl.prjdevops.domain.Tache;
+import m2sdl.prjdevops.repository.TacheRepository;
 import m2sdl.prjdevops.service.TacheService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
