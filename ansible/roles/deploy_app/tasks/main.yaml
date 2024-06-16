@@ -15,6 +15,7 @@
   community.docker.docker_swarm_service:
     name: todolistapp
     image: "{{ image }}"
+    force_update: true
     networks:
       - traefik
     mounts:
