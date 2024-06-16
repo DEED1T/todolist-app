@@ -6,8 +6,44 @@
 
 ## Webservice usage with curl command
 
-TODO
+| Endpoint                | Type   | Attributes                                    | Expected Response                                  | Description                                          |
+|-------------------------|--------|-----------------------------------------------|---------------------------------------------------|------------------------------------------------------|
+| `/api/todos`            | GET    | None                                          | JSON array of all tasks                           | Retrieve all tasks                                   |
+| `/api/todo`             | GET    | `id` (long)                                   | JSON object of the task with the specified ID     | Retrieve a task by its ID                            |
+| `/api/addTodo`          | POST   | `titre` (string), `texte` (string)            | JSON object of the created task                   | Create a new task with a title and text              |
+| `/api/deleteTodo`       | DELETE | `id` (long)                                   | None                                              | Delete a task by its ID                              |
+| `/api/updateTodo`       | PATCH  | `id` (long), `titre` (string, optional), `texte` (string, optional) | JSON object of the updated task or error message  | Update a task's title and/or text by its ID          |
 
+Can be used with these domain names : 
+- `app.notdelirious.master-sdl.ovh`
+- `app.topin060.master-sdl.ovh`
+
+### Examples
+
+Get all tasks :
+```shell
+curl -X GET "http://app.notdelirious.master-sdl.ovh/api/todos" -H "Accept: application/json"
+```
+
+Get a task by ID:
+```shell
+curl -X GET "http://app.notdelirious.master-sdl.ovh/api/todo?id=<task-id>" -H "Accept: application/json"
+```
+
+Add a new task:
+```shell
+curl -X POST "http://app.notdelirious.master-sdl.ovh/api/addTodo?titre=<task-title>&texte=<task-text>" -H "Accept: application/json"
+```
+
+Delete a task by ID:
+```shell
+curl -X DELETE "http://app.notdelirious.master-sdl.ovh/api/deleteTodo?id=<task-id>"
+```
+
+Update a task by ID:
+```shell
+curl -X PATCH "http://app.notdelirious.master-sdl.ovh/api/updateTodo?id=<task-id>&titre=<new-title>&texte=<new-text>" -H "Accept: application/json"
+```
 ## Prometheus Query
 
 To measure the number of requests per second when a **task** is created, you can use the following Prometheus query:
