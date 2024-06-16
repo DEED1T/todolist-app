@@ -50,3 +50,13 @@ To measure the number of requests per second when a **task** is created, you can
 ```prometheus
 rate(add_tache_bdd_responsetime_seconds_count[10m])
 ```
+
+## Sonarqube
+
+Credentials for accessing sonarqube on: `https://sonar.deed1t.master-sdl.ovh`
+
+username: `admin`
+
+password: `fH4gT0M1(Zrg#;T;]f>9u%`
+
+> This is absolutely not secure at all, but for the teachers that will review this project they will need an access 
