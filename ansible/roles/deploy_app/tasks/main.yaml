@@ -19,9 +19,9 @@
     networks:
       - traefik
     mounts:
-      - source: todolistdata
+      - source: /data
         target: /data
-        type: volume
+        type: bind
     publish:
       - target_port: 8080
         published_port: 8080
