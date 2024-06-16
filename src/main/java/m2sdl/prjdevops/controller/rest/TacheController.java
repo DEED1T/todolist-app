@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 
 @Setter
 @RestController("apiTodos")
@@ -27,7 +26,7 @@ public class TacheController {
 
     @GetMapping(path = "api/todos", produces = {"application/json; charset=UTF-8"})
     public List<Tache> findAllTaches() {
-        return tacheService.findAllTaches().stream().filter(Objects::nonNull).toList();
+        return tacheService.findAllTaches().stream().toList();
     }
 
     @GetMapping(path = "api/todo", produces = {"application/json; charset=UTF-8"})
@@ -57,9 +56,9 @@ public class TacheController {
                                              @RequestParam(name = "utilisateur", required = false) String updatedUtilisateur,
                                              @RequestParam(name = "done", required = false) boolean isDone)
     {
-        if (updatedTitre == null && updatedTexte == null) {
-            LOGGER.warn("New todo title and text are null, exiting");
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "New todo title and text are null");
+        if (updatedTitre == null && updatedTexte == null && updatedUtilisateur == null) {
+            LOGGER.warn("New todo title, text and user are null, exiting");
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "New todo title, text and user are null");
         }
 
         Tache tacheToUpdate = tacheService.findTacheById(idTache);
