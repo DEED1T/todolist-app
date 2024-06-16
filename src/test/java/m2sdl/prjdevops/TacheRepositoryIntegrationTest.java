@@ -3,7 +3,6 @@ package m2sdl.prjdevops;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.repository.TacheRepository;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,20 +31,21 @@ public class TacheRepositoryIntegrationTest {
 
     @Test
     public void givenNewTache_whenSave_thenSuccess() {
-        Tache originalTache = new Tache("Sport", "Faire du vélo");
+        Tache originalTache = new Tache("Sport", "Faire du vélo", "René");
+
         Tache savedTache = tacheRepository.save(originalTache);
+
         assertThat(entityManager.find(Tache.class, savedTache.getId())).isEqualTo(originalTache);
     }
 
     @Test
     public void givenTacheCreated_whenUpdate_thenSuccess() {
-        Tache originalTache = new Tache("Maison", "Faire la vaiselle");
-
+        Tache originalTache = new Tache("Maison", "Faire la vaiselle", "Thomas");
         entityManager.persist(originalTache);
 
         String newTitre = "Cuisine";
-        originalTache.setTitre(newTitre);
 
+        originalTache.setTitre(newTitre);
         tacheRepository.save(originalTache);
 
         assertThat(entityManager.find(Tache.class, originalTache.getId()).getTitre()).isEqualTo(newTitre);
@@ -53,8 +53,7 @@ public class TacheRepositoryIntegrationTest {
 
     @Test
     public void givenTacheCreated_whenFindById_thenSuccess() {
-        Tache tache = new Tache("Mecanique", "Changer le soufflet de cardan");
-
+        Tache tache = new Tache("Mecanique", "Changer le soufflet de cardan", "Olivier");
         entityManager.persist(tache);
 
         Optional<Tache> foundTache = tacheRepository.findById(tache.getId());
@@ -64,8 +63,7 @@ public class TacheRepositoryIntegrationTest {
 
     @Test
     public void givenTacheCreated_whenDelete_thenSuccess() {
-        Tache tache = new Tache("Jsais pas", "A supprimer car j'ai plus d'idées...");
-
+        Tache tache = new Tache("Jsais pas", "A supprimer car j'ai plus d'idées...", "Oui");
         entityManager.persist(tache);
         tacheRepository.delete(tache);
 

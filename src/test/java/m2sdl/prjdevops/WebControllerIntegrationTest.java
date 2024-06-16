@@ -48,10 +48,10 @@ public class WebControllerIntegrationTest {
 
         @BeforeEach
         void setUp() {
-            this.tache1 = new Tache("Cours", "Acheter des stylos");
-            this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots");
-            this.tache3 = new Tache("Sport", "Changer de vélo");
-            this.tache4 = new Tache("Bricolage", "Réparer le pied de la table");
+            this.tache1 = new Tache("Cours", "Acheter des stylos", "Joséphine");
+            this.tache2 = new Tache("Administratif", "Faire la déclaration d'impots", "Isabelle");
+            this.tache3 = new Tache("Sport", "Changer de vélo", "Hamdi");
+            this.tache4 = new Tache("Bricolage", "Réparer le pied de la table", "Tristan");
 
             this.tache1 = tacheService.saveTache(this.tache1);
             this.tache2 = tacheService.saveTache(this.tache2);
@@ -89,7 +89,8 @@ public class WebControllerIntegrationTest {
         void givenANewTache_whenHTTPPostNewTache_thenReturnSuccessAndTodosView() throws Exception {
             mockMvc.perform(post("/addtodo")
                             .param("titre", this.tache2.getTitre())
-                            .param("texte", this.tache2.getTexte()))
+                            .param("texte", this.tache2.getTexte())
+                            .param("utilisateur", this.tache2.getUtilisateur()))
                     .andExpect(status().isFound())
                     .andExpect(view().name("redirect:/todos"))
                     .andDo(print());

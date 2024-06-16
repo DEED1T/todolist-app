@@ -1,11 +1,5 @@
 package m2sdl.prjdevops.controller.rest;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Timer;
-import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -17,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 
 @Setter
 @RestController("apiTodos")
@@ -33,7 +26,7 @@ public class TacheController {
 
     @GetMapping(path = "api/todos", produces = {"application/json; charset=UTF-8"})
     public List<Tache> findAllTaches() {
-        return tacheService.findAllTaches().stream().filter(Objects::nonNull).toList();
+        return tacheService.findAllTaches().stream().toList();
     }
 
     @GetMapping(path = "api/todo", produces = {"application/json; charset=UTF-8"})
@@ -44,9 +37,11 @@ public class TacheController {
     }
 
     @PostMapping(path = "api/addTodo", produces = {"application/json; charset=UTF-8"})
-    public ResponseEntity<Tache> addTache(@RequestParam(name = "titre") String titre, @RequestParam(name = "texte") String texte) {
+    public ResponseEntity<Tache> addTache(@RequestParam(name = "titre") String titre,
+                                          @RequestParam(name = "texte") String texte,
+                                          @RequestParam(name = "utilisateur") String utilisateur) {
 
-        return new ResponseEntity<>(tacheService.saveTache(new Tache(titre, texte)), HttpStatus.CREATED);
+        return new ResponseEntity<>(tacheService.saveTache(new Tache(titre, texte, utilisateur)), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/api/deleteTodo")
@@ -57,17 +52,21 @@ public class TacheController {
     @PatchMapping(path = "/api/updateTodo", produces = {"application/json; charset=UTF-8"})
     public ResponseEntity<Tache> updateTache(@RequestParam(name = "id") long idTache,
                                              @RequestParam(name = "titre", required = false) String updatedTitre,
-                                             @RequestParam(name = "texte", required = false) String updatedTexte)
+                                             @RequestParam(name = "texte", required = false) String updatedTexte,
+                                             @RequestParam(name = "utilisateur", required = false) String updatedUtilisateur,
+                                             @RequestParam(name = "done", required = false) boolean isDone)
     {
-        if (updatedTitre == null && updatedTexte == null) {
-            LOGGER.warn("New todo title and text are null, exiting");
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "New todo title and text are null");
+        if (updatedTitre == null && updatedTexte == null && updatedUtilisateur == null) {
+            LOGGER.warn("New todo title, text and user are null, exiting");
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "New todo title, text and user are null");
         }
 
         Tache tacheToUpdate = tacheService.findTacheById(idTache);
         if (tacheToUpdate != null) {
             tacheToUpdate.setTitre(updatedTitre == null ? tacheToUpdate.getTitre() : updatedTitre);
             tacheToUpdate.setTexte(updatedTexte == null ? tacheToUpdate.getTexte() : updatedTexte);
+            tacheToUpdate.setUtilisateur(updatedUtilisateur == null ? tacheToUpdate.getUtilisateur() : updatedUtilisateur);
+            tacheToUpdate.setIsDone(isDone);
 
             return new ResponseEntity<>(tacheService.saveTache(tacheToUpdate), HttpStatus.OK);
         }

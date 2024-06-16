@@ -10,7 +10,9 @@
     <h1 class="display-4">[[${tache.titre}]]</h1>
     <p class="lead">[[${tache.texte}]]</p>
     <hr class="my-4">
-    <p>Crée le : [[${tache.getDate().getDayOfMonth()}]]/[[${tache.getDate().getMonthValue()}]]/[[${tache.getDate().getYear()}]] à [[${tache.getDate().getHour()}]]h [[${tache.getDate().getMinute()}]]min et [[${tache.getDate().getSecond()}]]sec. :)</p>
+    <p>Crée le : [[${tache.getDate().getDayOfMonth()}]]/[[${tache.getDate().getMonthValue()}]]/[[${tache.getDate().getYear()}]]
+        à [[${tache.getDate().getHour()}]]h [[${tache.getDate().getMinute()}]]min et [[${tache.getDate().getSecond()}]]sec. :)</p>
+    <p>Responsable : [[${tache.getUtilisateur()}]]</p>
     <p class="lead">
         <a th:href="@{/todos}" role="button">Retourner à la liste.</a>
     </p>

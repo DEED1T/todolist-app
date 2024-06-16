@@ -23,7 +23,16 @@
             <div class="col-sm-10">
                 <input type="text" th:field="*{texte}" id="texte" placeholder="Description de la tache" class="form-control">
             </div>
-            <span th:if="${#fields.hasErrors('titre')}" th:errors="*{texte}"></span>
+            <span th:if="${#fields.hasErrors('texte')}" th:errors="*{texte}"></span>
+        </div>
+
+        <div class="mb-3">
+
+            <label for="utilisateur" class="col-sm-2 col-form-label">Responsable</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{utilisateur}" id="utilisateur" placeholder="Responsable de la tache" class="form-control">
+            </div>
+            <span th:if="${#fields.hasErrors('utilisateur')}" th:errors="*{texte}"></span>
         </div>
         <br>
 

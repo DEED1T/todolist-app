@@ -52,6 +52,8 @@ public class TacheService {
         List<Tache> allTaches = new ArrayList<>();
 
         this.tacheRepository.findAll().forEach(allTaches::add);
+
+        //Ordonner par date
         allTaches.sort(Comparator.comparing(Tache::getDate));
 
         return allTaches;
@@ -66,8 +68,10 @@ public class TacheService {
     }
 
     public void deleteTache(long id) {
-        this.tacheRepository.deleteById(id);
-
-        if (this.findTacheById(id) == null) counterTacheOperations.increment();
+        // Pour s'assurer que la tache existe.
+        if (this.findTacheById(id) != null) {
+            this.tacheRepository.deleteById(id);
+            counterTacheOperations.increment();
+        }
     }
 }
