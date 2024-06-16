@@ -30,8 +30,15 @@
             <label for="utilisateur" class="col-sm-2 col-form-label">Responsable</label>
             <span th:if="${#fields.hasErrors('utilisateur')}" th:errors="*{utilisateur}" class="alert alert-danger"></span>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="utilisateur" placeholder="Responsable de la tache" th:field="*{texte}">
+                <input type="text" class="form-control" id="utilisateur" placeholder="Responsable de la tache" th:field="*{utilisateur}">
             </div>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" th:field="*{isDone}" type="checkbox" id="isTacheDone" th:checked="*{isDone}">
+            <label class="form-check-label" for="isTacheDone">
+                Tache complétée
+            </label>
         </div>
 
         <br>
