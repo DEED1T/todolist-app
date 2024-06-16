@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>My Todos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
@@ -12,9 +13,23 @@
         <h2 th:if="*{taches.isEmpty()}" class="text-center mt-4"> Aucune tâche ! Commencez par <a href="/newTodo">ajouter une tâche.</a></h2>
 
         <div th:if="*{!taches.isEmpty()}">
+
             <h2 class="text-center mt-4">Mes tâches à faire</h2>
             <br>
             <a href="/newTodo">Nouvelle tâche</a>
+            <br>
+            <br>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">@</span>
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Responsable" 
+                       aria-label="Responsable" 
+                       aria-describedby="basic-addon1" 
+                       id="utilisateurFilter"
+                onkeyup="filterByUtilisateur()">
+            </div>
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -22,18 +37,26 @@
                         <th scope="col">Description</th>
                         <th scope="col">Date</th>
                         <th scope="col">Responsable</th>
-                        <th scope="col">Finie ?</th>
+                        <th scope="col">
+                            Finie ?
+                            <select id="tacheFilter" style='display:inline-block' onchange="filterTachesOnStatus()">
+                                <option selected value="">Toutes les taches</option>
+                                <option value="oui">Oui</option>
+                                <option value="non">Non</option>
+                            </select>
+                        </th>
                         <th scope="col" colspan="3">Actions</th>
                     </tr>
                 </thead>
+                <tbody id="taches">
                 <tr th:each="tache: ${taches}">
                     <td th:text="${tache.titre}"></td>
                     <td th:text="${tache.texte}"></td>
                     <!-- Pour formatter correctement la date, on peut le faire à la main ou
                     ajouter la dépendance Thymeleaf associée qui ajoute aussi une tonne de vulnérabilités. -->
                     <td th:text="${tache.getDate().getDayOfMonth() + '/' + tache.getDate().getMonthValue() + '/' + tache.getDate().getYear() + ' ' + tache.getDate().getHour() + ':' + tache.getDate().getMinute() + ':' + tache.getDate().getSecond()}"></td>
-                    <td th:text="${tache.utilisateur}"></td>
-                    <td th:text="${tache.isDone} ? 'Finie' : 'À faire'"></td>
+                    <td th:text="${tache.utilisateur}" id="tacheResponsable"></td>
+                    <td th:text="${tache.isDone} ? 'Oui' : 'Non'" id="tacheStatus"></td>
                     <td>
                         <a th:href="@{/todo/{id}(id=${tache.id})}" class="btn btn-primary">Voir</a>
                     </td>
@@ -44,8 +67,27 @@
                         <a th:href="@{/todo/delete/{id}(id=${tache.id})}" class="btn btn-danger">Supprimer</a>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
 </div>
+<script>
+    function filterByUtilisateur() {
+        const value = $("#utilisateurFilter").val().toLowerCase();
+        $("#taches tr").filter(function(){
+            // Renvoie le premier indice pour lequel on trouve un élément donné dans un tableau.
+            // Si l'élément cherché n'est pas présent dans le tableau, indexOf renverra -1.
+            $(this).toggle($(this).find("#tacheResponsable").text().toLowerCase().indexOf(value) > -1);
+        });
+    }
+
+    function filterTachesOnStatus(){
+        const value = $("#tacheFilter :selected").val().toLowerCase();
+
+        $("#taches tr").filter(function(){
+            $(this).toggle($(this).find("#tacheStatus").text().toLowerCase().indexOf(value) > -1);
+        });
+    }
+</script>
 </body>
 </html>
