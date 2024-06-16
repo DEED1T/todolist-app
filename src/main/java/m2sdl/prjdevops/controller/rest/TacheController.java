@@ -54,9 +54,9 @@ public class TacheController {
                                              @RequestParam(name = "titre", required = false) String updatedTitre,
                                              @RequestParam(name = "texte", required = false) String updatedTexte,
                                              @RequestParam(name = "utilisateur", required = false) String updatedUtilisateur,
-                                             @RequestParam(name = "done", required = false) boolean isDone)
+                                             @RequestParam(name = "done", required = false) Boolean isDone)
     {
-        if (updatedTitre == null && updatedTexte == null && updatedUtilisateur == null) {
+        if (updatedTitre == null && updatedTexte == null && updatedUtilisateur == null && isDone == null) {
             LOGGER.warn("New todo title, text and user are null, exiting");
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "New todo title, text and user are null");
         }
