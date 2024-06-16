@@ -29,11 +29,18 @@ public class Tache {
     @NotNull
     private String texte;
 
+    private Boolean isDone = false;
+
+    @NotNull
+    @NotEmpty
+    private String utilisateur;
+
     @DateTimeFormat
     public LocalDateTime date;
 
-    public Tache(String titre, String description) {
+    public Tache(String titre, String description, String utilisateur) {
         this.titre = titre;
         this.texte = description;
+        this.utilisateur = utilisateur;
     }
 }

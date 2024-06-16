@@ -1,11 +1,5 @@
 package m2sdl.prjdevops.controller.rest;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Timer;
-import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
 import lombok.Setter;
 import m2sdl.prjdevops.domain.Tache;
 import m2sdl.prjdevops.service.TacheService;
@@ -44,9 +38,11 @@ public class TacheController {
     }
 
     @PostMapping(path = "api/addTodo", produces = {"application/json; charset=UTF-8"})
-    public ResponseEntity<Tache> addTache(@RequestParam(name = "titre") String titre, @RequestParam(name = "texte") String texte) {
+    public ResponseEntity<Tache> addTache(@RequestParam(name = "titre") String titre,
+                                          @RequestParam(name = "texte") String texte,
+                                          @RequestParam(name = "utilisateur") String utilisateur) {
 
-        return new ResponseEntity<>(tacheService.saveTache(new Tache(titre, texte)), HttpStatus.CREATED);
+        return new ResponseEntity<>(tacheService.saveTache(new Tache(titre, texte, utilisateur)), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/api/deleteTodo")
