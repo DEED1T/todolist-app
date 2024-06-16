@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'dev'
     tags:
       - '**'
 
@@ -56,6 +55,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   pull_and_deploy_app:
+    needs: build-and-push-image
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
@@ -73,7 +73,7 @@ jobs:
       - name: Run Ansible Playbook for app deployment preprod
         if: github.ref == 'refs/heads/main'
         run: |
-          ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml -v
+          ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml -v -e "state=app"
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
@@ -81,12 +81,11 @@ jobs:
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:main'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
           HOST: 'preprod'
-          STATE: 'app'
 
       - name: Run Ansible Playbook for app deployment prod
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml -v
+          ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml -v -e "state=app"
         env:
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           GITHUB_ACTOR: ${{ github.actor }}
@@ -94,4 +93,3 @@ jobs:
           IMAGE: 'ghcr.io/m2dl-ivvq-devops/projet-2024-kool-krazy-klub:latest'
           ANSIBLE_HOST_KEY_CHECKING: 'false'
           HOST: 'prod'
-          STATE: 'app'
