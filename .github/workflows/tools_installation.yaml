@@ -23,4 +23,4 @@ jobs:
           ansible-playbook ansible/site.yaml -i ansible/inventories/hosts.yaml -e "state=tools"
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
-          HOST: 'prod' # unused env var to avoid ansible error
+          HOST: 'all' 
